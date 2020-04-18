@@ -1,0 +1,29 @@
+{
+  "name": "html-canvas-img-resizer",
+  "version": "1.0.0",
+  "description": "Image resize library based on html canvas",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "rm -r ./lib && tsc && webpack"
+  },
+  "keywords": [
+    "image",
+    "resize",
+    "canvas"
+  ],
+  "author": "Subhash Halder <halder.subash@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.9.0",
+    "@typescript-eslint/parser": "^2.9.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "^1.19.1",
+    "ts-loader": "^7.0.0",
+    "typescript": "^3.7.2",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
