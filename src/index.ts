@@ -1,16 +1,20 @@
 interface Oprions {
   id: string;
   imageURL: string;
-  cropImageRLT: (imageURL: string) => void;
   cropMaskColor?: string;
   cropCornerColor?: string;
   cropCornerLineWidth?: number;
   dragCornerBoxSize?: number;
+  cropImageWatcher?: (dataURL: string) => void;
 }
 
-export default (options: Oprions): CanvasRenderingContext2D => {
+interface ReturnType {
+  getImage: (dataType?: string) => any;
+}
+
+export default (options: Oprions): ReturnType => {
   const dragCornerBoxSize = options.dragCornerBoxSize || 20;
-  const cropImageRLT = options.cropImageRLT;
+  const cropImageWatcher = options.cropImageWatcher;
   const cropMaskColor = options.cropMaskColor || 'rgba(0, 0, 0, 0.5)';
   const cropCornerColor = options.cropCornerColor || 'green';
   const cropCornerLineWidth = options.cropCornerLineWidth || 5;
@@ -96,8 +100,8 @@ export default (options: Oprions): CanvasRenderingContext2D => {
   image.onload = () => {
     imageCanvas.width = image.width;
     imageCanvas.height = image.height;
-    cropCanvas.width = imageCanvas.clientWidth;
-    cropCanvas.height = imageCanvas.clientHeight;
+    cropCanvas.width = imageCanvas.offsetWidth;
+    cropCanvas.height = imageCanvas.offsetHeight;
     cropCanvas.addEventListener('mouseup', mouseUp, false);
     cropCanvas.addEventListener('mousemove', mouseMove, false);
     imageCanvasCtx.drawImage(image, 0, 0);
@@ -150,9 +154,38 @@ export default (options: Oprions): CanvasRenderingContext2D => {
     const selection = {
       x: 0,
       y: 0,
-      w: imageCanvas.clientWidth,
-      h: imageCanvas.clientHeight,
+      w: imageCanvas.offsetWidth,
+      h: imageCanvas.offsetHeight,
     };
+
+    let preResizeState = {
+      canvasWidth: imageCanvas.offsetWidth,
+      canvasHeight: imageCanvas.offsetHeight,
+      ...selection,
+    };
+
+    setInterval(() => {
+      const newWidth = imageCanvas.offsetWidth;
+      const newHeight = imageCanvas.offsetHeight;
+      if (
+        preResizeState.canvasHeight != newHeight ||
+        preResizeState.canvasWidth != newWidth
+      ) {
+        const xScale = newWidth / preResizeState.canvasWidth;
+        const yScale = newHeight / preResizeState.canvasHeight;
+
+        preResizeState = {
+          ...selection,
+          canvasHeight: newHeight,
+          canvasWidth: newWidth,
+        };
+        cropCanvas.width = newWidth;
+        cropCanvas.height = newHeight;
+        selection.w *= xScale;
+        selection.h *= yScale;
+        draw();
+      }
+    }, 500);
 
     drawExportCanvas = () => {
       const scaleX = image.width / cropCanvas.width;
@@ -174,7 +207,7 @@ export default (options: Oprions): CanvasRenderingContext2D => {
         width,
         height
       );
-      cropImageRLT && cropImageRLT(exportCanvas.toDataURL());
+      cropImageWatcher && cropImageWatcher(exportCanvas.toDataURL());
     };
 
     function mouseUp() {
@@ -294,5 +327,9 @@ export default (options: Oprions): CanvasRenderingContext2D => {
 
     draw();
   };
-  return exportCanvasCtx;
+  return {
+    getImage: () => {
+      return exportCanvas.toDataURL();
+    },
+  };
 };
