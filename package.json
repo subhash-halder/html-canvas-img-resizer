@@ -1,8 +1,9 @@
 {
   "name": "html-canvas-img-resizer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Image resize library based on html canvas",
-  "main": "./lib/index.js",
+  "main": "lib/index.js",
+  "types": "lib",
   "scripts": {
     "build": "rm -r ./lib && tsc && webpack"
   },
@@ -11,6 +12,10 @@
     "resize",
     "canvas"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/subhash1991/html-canvas-img-resizer"
+  },
   "author": "Subhash Halder <halder.subash@gmail.com>",
   "license": "MIT",
   "devDependencies": {
