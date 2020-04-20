@@ -216,6 +216,8 @@ export default (options: Oprions): ReturnType => {
 
     let mousePrevX = 0;
     let mousePrevY = 0;
+    let previousX = 0;
+    let previousY = 0;
 
     function mouseMove(e: MouseEvent) {
       if (!imageDiv) {
@@ -243,6 +245,14 @@ export default (options: Oprions): ReturnType => {
         selection.x += mouseX - mousePrevX;
         selection.y += mouseY - mousePrevY;
       }
+      if (selection.w < 2 * dragCornerBoxSize) {
+        selection.w = 2 * dragCornerBoxSize;
+        selection.x = previousX;
+      }
+      if (selection.h < 2 * dragCornerBoxSize) {
+        selection.h = 2 * dragCornerBoxSize;
+        selection.y = previousY;
+      }
       if (selection.x < 0) {
         selection.x = 0;
       }
@@ -257,6 +267,8 @@ export default (options: Oprions): ReturnType => {
       }
       mousePrevX = mouseX;
       mousePrevY = mouseY;
+      previousX = selection.x;
+      previousY = selection.y;
       draw();
     }
 

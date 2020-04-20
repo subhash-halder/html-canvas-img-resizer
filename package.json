@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "types": "lib",
   "scripts": {
-    "build": "rm -r ./lib && tsc && webpack"
+    "build": "rm -r ./lib && tsc && webpack",
+    "start": "webpack --watch"
   },
   "keywords": [
     "image",
