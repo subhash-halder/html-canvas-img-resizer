@@ -10,6 +10,7 @@ interface Oprions {
 
 interface ReturnType {
   getImage: (dataType?: string) => any;
+  setImageURL: (imageURL: string) => void;
 }
 
 export default (options: Oprions): ReturnType => {
@@ -96,8 +97,15 @@ export default (options: Oprions): ReturnType => {
   let dragBottomRight = false;
   let dragBox = false;
   const image = new Image();
-  image.src = options.imageURL;
+  if (options.imageURL) image.src = options.imageURL;
+  // image.crossOrigin = 'anonymous';
   image.onload = () => {
+    if (imageDiv.offsetWidth === 0) {
+      imageDiv.style.width = image.width + 'px';
+    }
+    if (imageDiv.offsetHeight === 0) {
+      imageDiv.style.height = image.height + 'px';
+    }
     imageCanvas.width = image.width;
     imageCanvas.height = image.height;
     cropCanvas.width = imageCanvas.offsetWidth;
@@ -225,51 +233,59 @@ export default (options: Oprions): ReturnType => {
       }
       let mouseX = e.pageX - imageDiv.offsetLeft;
       let mouseY = e.pageY - imageDiv.offsetTop;
+      let isDraw = false;
       if (dragTopLeft) {
         selection.w += selection.x - mouseX;
         selection.h += selection.y - mouseY;
         selection.x = mouseX;
         selection.y = mouseY;
+        isDraw = true;
       } else if (dragTopRight) {
         selection.w = Math.abs(selection.x - mouseX);
         selection.h += selection.y - mouseY;
         selection.y = mouseY;
+        isDraw = true;
       } else if (dragBottomLeft) {
         selection.w += selection.x - mouseX;
         selection.h = Math.abs(selection.y - mouseY);
         selection.x = mouseX;
+        isDraw = true;
       } else if (dragBottomRight) {
         selection.w = Math.abs(selection.x - mouseX);
         selection.h = Math.abs(selection.y - mouseY);
+        isDraw = true;
       } else if (dragBox) {
         selection.x += mouseX - mousePrevX;
         selection.y += mouseY - mousePrevY;
+        isDraw = true;
       }
-      if (selection.w < 2 * dragCornerBoxSize) {
-        selection.w = 2 * dragCornerBoxSize;
-        selection.x = previousX;
-      }
-      if (selection.h < 2 * dragCornerBoxSize) {
-        selection.h = 2 * dragCornerBoxSize;
-        selection.y = previousY;
-      }
-      if (selection.x < 0) {
-        selection.x = 0;
-      }
-      if (selection.x + selection.w > cropCanvas.width) {
-        selection.x = cropCanvas.width - selection.w;
-      }
-      if (selection.y < 0) {
-        selection.y = 0;
-      }
-      if (selection.y + selection.h > cropCanvas.height) {
-        selection.y = cropCanvas.height - selection.h;
+      if (isDraw) {
+        if (selection.w < 2 * dragCornerBoxSize) {
+          selection.w = 2 * dragCornerBoxSize;
+          selection.x = previousX;
+        }
+        if (selection.h < 2 * dragCornerBoxSize) {
+          selection.h = 2 * dragCornerBoxSize;
+          selection.y = previousY;
+        }
+        if (selection.x < 0) {
+          selection.x = 0;
+        }
+        if (selection.x + selection.w > cropCanvas.width) {
+          selection.x = cropCanvas.width - selection.w;
+        }
+        if (selection.y < 0) {
+          selection.y = 0;
+        }
+        if (selection.y + selection.h > cropCanvas.height) {
+          selection.y = cropCanvas.height - selection.h;
+        }
+        draw();
       }
       mousePrevX = mouseX;
       mousePrevY = mouseY;
       previousX = selection.x;
       previousY = selection.y;
-      draw();
     }
 
     function draw() {
@@ -342,6 +358,9 @@ export default (options: Oprions): ReturnType => {
   return {
     getImage: () => {
       return exportCanvas.toDataURL();
+    },
+    setImageURL: (imageURL: string) => {
+      image.src = imageURL;
     },
   };
 };
