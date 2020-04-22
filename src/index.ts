@@ -1,4 +1,4 @@
-interface Oprions {
+interface Options {
   id: string;
   imageURL: string;
   cropMaskColor?: string;
@@ -13,7 +13,7 @@ interface ReturnType {
   setImageURL: (imageURL: string) => void;
 }
 
-export default (options: Oprions): ReturnType => {
+export default (options: Options): ReturnType => {
   const dragCornerBoxSize = options.dragCornerBoxSize || 20;
   const cropImageWatcher = options.cropImageWatcher;
   const cropMaskColor = options.cropMaskColor || 'rgba(0, 0, 0, 0.5)';
