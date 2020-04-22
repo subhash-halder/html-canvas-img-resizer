@@ -13,9 +13,8 @@ yarn add html-canvas-img-resizer
 ```
 
 ## Example
-```
-https://subhashhalder.com/html-canvas-img-resizer
-```
+
+[Click for example](https://subhashhalder.com/html-canvas-img-resizer)
 
 ## How to use in browser
 
