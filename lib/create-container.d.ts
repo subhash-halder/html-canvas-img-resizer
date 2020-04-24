@@ -8,6 +8,7 @@ declare const _default: (containerId: string, dragCornerBoxSize: number) => {
     topLeftCornerDiv: HTMLDivElement;
     topRightCornerDiv: HTMLDivElement;
     imageDiv: HTMLElement;
+    containerDiv: HTMLDivElement;
 };
 export default _default;
 //# sourceMappingURL=create-container.d.ts.map

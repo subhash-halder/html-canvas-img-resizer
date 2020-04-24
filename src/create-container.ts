@@ -68,5 +68,6 @@ export default (containerId: string, dragCornerBoxSize: number) => {
     topLeftCornerDiv,
     topRightCornerDiv,
     imageDiv,
+    containerDiv,
   };
 };

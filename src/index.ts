@@ -72,6 +72,7 @@ export default (options: Options): ReturnType => {
     bottomLeftCornerDiv,
     topLeftCornerDiv,
     topRightCornerDiv,
+    containerDiv,
   } = createContainer(options.id, dragCornerBoxSize);
 
   const imageCanvasCtx = imageCanvas.getContext('2d');
@@ -93,11 +94,22 @@ export default (options: Options): ReturnType => {
   let dragBottomRight = false;
   let dragBox = false;
   const image = new Image();
+  let heightNotProvided = true;
+  let checkResizeFunction: NodeJS.Timeout;
+  if (imageDiv.clientHeight > 0) {
+    heightNotProvided = false;
+  }
   if (options.imageURL) image.src = options.imageURL;
   // image.crossOrigin = 'anonymous';
   image.onload = () => {
     const imgDivWidth = imageDiv.clientWidth;
-    imageDiv.style.height = image.height * (image.width / imgDivWidth) + 'px';
+    if (heightNotProvided) {
+      let expectedHeight = image.height * (imgDivWidth / image.width);
+      if (expectedHeight > image.height) {
+        expectedHeight = image.height;
+      }
+      containerDiv.style.height = expectedHeight + 'px';
+    }
     imageCanvas.width = image.width;
     imageCanvas.height = image.height;
     cropCanvas.width = imageCanvas.clientWidth;
@@ -164,7 +176,12 @@ export default (options: Options): ReturnType => {
       ...selection,
     };
 
-    setInterval(() => {
+    // to avoide memory leak
+    if (checkResizeFunction) {
+      clearInterval(checkResizeFunction);
+    }
+
+    checkResizeFunction = setInterval(() => {
       const newWidth = imageCanvas.clientWidth;
       const newHeight = imageCanvas.clientHeight;
       if (
