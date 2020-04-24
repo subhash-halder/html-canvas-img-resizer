@@ -182,8 +182,8 @@ export default (options: Options): ReturnType => {
     }
 
     checkResizeFunction = setInterval(() => {
-      const newWidth = imageCanvas.clientWidth;
-      const newHeight = imageCanvas.clientHeight;
+      const newWidth = imageCanvas.offsetWidth;
+      const newHeight = imageCanvas.offsetHeight;
       if (
         preResizeState.canvasHeight != newHeight ||
         preResizeState.canvasWidth != newWidth
@@ -240,8 +240,9 @@ export default (options: Options): ReturnType => {
       if (!imageDiv) {
         throw Error('Not able to create canvas');
       }
-      let mouseX = e.pageX - imageDiv.offsetLeft;
-      let mouseY = e.pageY - imageDiv.offsetTop;
+      let canvasRect = cropCanvas.getBoundingClientRect();
+      let mouseX = e.clientX - canvasRect.x;
+      let mouseY = e.clientY - canvasRect.y;
       let isDraw = false;
       if (dragTopLeft) {
         selection.w += selection.x - mouseX;

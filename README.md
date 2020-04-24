@@ -10,7 +10,7 @@ if the height of the div not provided the height will be calculated accordingly 
 
 ## directly use in html
 ```
-https://cdn.jsdelivr.net/npm/html-canvas-img-resizer@1.0.3/browser/html-canvas-img-resizer.min.js
+https://cdn.jsdelivr.net/npm/html-canvas-img-resizer@1.0.4/browser/html-canvas-img-resizer.min.js
 ```
 ## use npm or yarn
 ```
