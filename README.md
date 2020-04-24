@@ -6,7 +6,7 @@ if the height of the div not provided the height will be calculated accordingly 
 
 ## TODO
 - [ ] Restructure the code for better readability
-- [ ] Add support for width cropping
+- [ ] Add support for fixed width cropping
 
 ## directly use in html
 ```
