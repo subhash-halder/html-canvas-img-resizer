@@ -5,8 +5,8 @@ NOTE: the width and height of the canvas is determined by the id of the div prov
 if the height of the div not provided the height will be calculated accordingly with respect to aspect ratio
 
 ## TODO
-- [] Restructure the code for better readability
-- [] Add support for width cropping
+- [ ] Restructure the code for better readability
+- [ ] Add support for width cropping
 
 ## directly use in html
 ```
