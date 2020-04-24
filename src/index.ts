@@ -1,18 +1,60 @@
+import createContainer from './create-container';
+
+/**
+ * This is the options
+ */
 interface Options {
+  /**
+   * Id of the html div where the cropper will be placed
+   */
   id: string;
-  imageURL: string;
+  /**
+   * Image url or base64 image url
+   * NOTE: If rendered image from other domain exporting from canvas will give error
+   */
+  imageURL?: string;
+  /**
+   * The color of the portion outside the image cropper
+   * default: rgba(0, 0, 0, 0.5)
+   */
   cropMaskColor?: string;
+  /**
+   * Color of the corner part
+   * default: green
+   */
   cropCornerColor?: string;
+  /**
+   * Line width of the corner cropper indicator
+   * default 5
+   */
   cropCornerLineWidth?: number;
+  /**
+   * Sensible sqare portion for resizing at each corner
+   * default: 20
+   */
   dragCornerBoxSize?: number;
+  /**
+   * This function is to get the image dataURL in realtime
+   * this function will be called every time the resize and other update in the image is called
+   * with the dataURL as a string parameter
+   */
   cropImageWatcher?: (dataURL: string) => void;
 }
 
 interface ReturnType {
+  /**
+   * Get the image dataURL of the current status of the image
+   */
   getImage: (dataType?: string) => any;
+  /**
+   * Dynamically change the image to be cropped
+   */
   setImageURL: (imageURL: string) => void;
 }
 
+/**
+ * This is the main function
+ */
 export default (options: Options): ReturnType => {
   const dragCornerBoxSize = options.dragCornerBoxSize || 20;
   const cropImageWatcher = options.cropImageWatcher;
@@ -20,64 +62,18 @@ export default (options: Options): ReturnType => {
   const cropCornerColor = options.cropCornerColor || 'green';
   const cropCornerLineWidth = options.cropCornerLineWidth || 5;
 
-  const imageDiv = document.getElementById(options.id);
-  if (!imageDiv) {
-    throw Error('Please provide a valid html element Id to work with');
-  }
-  const containerDiv = document.createElement('div');
-  containerDiv.setAttribute(
-    'style',
-    'width:100%; height:100%; position:relative'
-  );
-  imageDiv.appendChild(containerDiv);
-  const imageCanvas = document.createElement('canvas');
-  imageCanvas.setAttribute(
-    'style',
-    'max-width:100%; max-height:100%; position:absolute; top:0; left:0'
-  );
-  const cropCanvas = document.createElement('canvas');
-  cropCanvas.setAttribute(
-    'style',
-    'max-width:100%; max-height:100%; position:absolute; top:0; left:0'
-  );
-  const exportCanvas = document.createElement('canvas');
-  exportCanvas.setAttribute('style', 'display:none');
+  const {
+    imageDiv,
+    exportCanvas,
+    imageCanvas,
+    cropCanvas,
+    selectionDiv,
+    bottomRightCornerDiv,
+    bottomLeftCornerDiv,
+    topLeftCornerDiv,
+    topRightCornerDiv,
+  } = createContainer(options.id, dragCornerBoxSize);
 
-  // div for click tracker
-  const topLeftCornerDiv = document.createElement('div');
-  const topRightCornerDiv = document.createElement('div');
-  const bottomRightCornerDiv = document.createElement('div');
-  const bottomLeftCornerDiv = document.createElement('div');
-  const selectionDiv = document.createElement('div');
-  bottomLeftCornerDiv.setAttribute(
-    'style',
-    `position: absolute; width: ${dragCornerBoxSize}px; height: ${dragCornerBoxSize}px; top: 0px; left: 0px; cursor: sw-resize; background: transparent; stroke: transparent;`
-  );
-  bottomRightCornerDiv.setAttribute(
-    'style',
-    `position: absolute; width: ${dragCornerBoxSize}px; height: ${dragCornerBoxSize}px; top: 0px; left: 0px; cursor: se-resize; background: transparent; stroke: transparent;`
-  );
-  topRightCornerDiv.setAttribute(
-    'style',
-    `position: absolute; width: ${dragCornerBoxSize}px; height: ${dragCornerBoxSize}px; top: 0px; left: 0px; cursor: ne-resize; background: transparent; stroke: transparent;`
-  );
-  topLeftCornerDiv.setAttribute(
-    'style',
-    `position: absolute; width: ${dragCornerBoxSize}px; height: ${dragCornerBoxSize}px; top: 0px; left: 0px; cursor: nw-resize; background: transparent; stroke: transparent;`
-  );
-  selectionDiv.setAttribute(
-    'style',
-    `position: absolute; width: ${dragCornerBoxSize}px; height: ${dragCornerBoxSize}px; top: 0px; left: 0px; cursor: all-scroll; background: transparent; stroke: transparent;`
-  );
-
-  containerDiv.appendChild(exportCanvas);
-  containerDiv.appendChild(imageCanvas);
-  containerDiv.appendChild(cropCanvas);
-  containerDiv.appendChild(selectionDiv);
-  containerDiv.appendChild(bottomLeftCornerDiv);
-  containerDiv.appendChild(bottomRightCornerDiv);
-  containerDiv.appendChild(topRightCornerDiv);
-  containerDiv.appendChild(topLeftCornerDiv);
   const imageCanvasCtx = imageCanvas.getContext('2d');
   if (!imageCanvasCtx) {
     throw Error('Not able to create canvas');
@@ -100,16 +96,12 @@ export default (options: Options): ReturnType => {
   if (options.imageURL) image.src = options.imageURL;
   // image.crossOrigin = 'anonymous';
   image.onload = () => {
-    if (imageDiv.offsetWidth === 0) {
-      imageDiv.style.width = image.width + 'px';
-    }
-    if (imageDiv.offsetHeight === 0) {
-      imageDiv.style.height = image.height + 'px';
-    }
+    const imgDivWidth = imageDiv.clientWidth;
+    imageDiv.style.height = image.height * (image.width / imgDivWidth) + 'px';
     imageCanvas.width = image.width;
     imageCanvas.height = image.height;
-    cropCanvas.width = imageCanvas.offsetWidth;
-    cropCanvas.height = imageCanvas.offsetHeight;
+    cropCanvas.width = imageCanvas.clientWidth;
+    cropCanvas.height = imageCanvas.clientHeight;
     cropCanvas.addEventListener('mouseup', mouseUp, false);
     cropCanvas.addEventListener('mousemove', mouseMove, false);
     imageCanvasCtx.drawImage(image, 0, 0);
@@ -162,19 +154,19 @@ export default (options: Options): ReturnType => {
     const selection = {
       x: 0,
       y: 0,
-      w: imageCanvas.offsetWidth,
-      h: imageCanvas.offsetHeight,
+      w: imageCanvas.clientWidth,
+      h: imageCanvas.clientHeight,
     };
 
     let preResizeState = {
-      canvasWidth: imageCanvas.offsetWidth,
-      canvasHeight: imageCanvas.offsetHeight,
+      canvasWidth: imageCanvas.clientWidth,
+      canvasHeight: imageCanvas.clientHeight,
       ...selection,
     };
 
     setInterval(() => {
-      const newWidth = imageCanvas.offsetWidth;
-      const newHeight = imageCanvas.offsetHeight;
+      const newWidth = imageCanvas.clientWidth;
+      const newHeight = imageCanvas.clientHeight;
       if (
         preResizeState.canvasHeight != newHeight ||
         preResizeState.canvasWidth != newWidth

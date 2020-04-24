@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "types": "lib",
   "scripts": {
-    "build": "rm -r ./lib && tsc && webpack",
+    "docs": "typedoc --out docs src",
+    "build": "rm -r ./lib && rm -r ./browser && rm -r ./docs && tsc && webpack && typedoc --out docs src",
     "start": "webpack --watch"
   },
   "keywords": [
@@ -28,6 +29,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "prettier": "^1.19.1",
     "ts-loader": "^7.0.0",
+    "typedoc": "^0.17.4",
     "typescript": "^3.7.2",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"

@@ -14,7 +14,11 @@ yarn add html-canvas-img-resizer
 
 ## Example
 
-[Click for example](https://subhashhalder.com/html-canvas-img-resizer)
+[Click for example](https://subhash.info/html-canvas-img-resizer)
+
+## Documentation
+
+[Documentation](https://subhash.info/html-canvas-img-resizer/docs)
 
 ## How to use in browser
 
@@ -24,21 +28,8 @@ yarn add html-canvas-img-resizer
 
 ### options
 
-```
-  id: string                                  // Id of the div in which the cropping canvas will be render
-  imageUrl: string                            // image url or base64 image url
-  cropMaskColor: string                       // the color of the portion outside the image cropper
-  cropCornerColor: string                     // corner color of the image cropper
-  cropCornerLineWidth: number                 
-  dragCornerBoxSize: number                   // corner dragable sensitive area
-  cropImageWatcher: (dataUrl: string) => void // this will result realtime image dataURL whenever cropped
-```
+[options](https://subhash.info/html-canvas-img-resizer/docs/interfaces/_index_.options.html)
 
 ### return
-```
-  getImage: () => dataURL              // get the image dataURL of the cropped part
-  setImage: (imageURL: string) => void // set new image dynamically
-```
 
-
-
+[return](https://subhash.info/html-canvas-img-resizer/docs/interfaces/_index_.returntype.html)
