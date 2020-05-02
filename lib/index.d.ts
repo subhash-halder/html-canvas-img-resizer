@@ -1,4 +1,21 @@
 /**
+ * Argument for getting the image for specific need
+ */
+interface GetImageArgument {
+    /**
+     * type of image data to return dataURL or blob default if blob
+     */
+    dataType: 'dataURL' | 'blob';
+    /**
+     * return image type jpeg or png format
+     */
+    imageType?: 'image/jpeg' | 'image/png';
+    /**
+     * The image quality of the returned image range from 0-1
+     */
+    imageQuality?: number;
+}
+/**
  * This is the options
  */
 interface Options {
@@ -32,17 +49,20 @@ interface Options {
      */
     dragCornerBoxSize?: number;
     /**
-     * This function is to get the image dataURL in realtime
+     * The callback (cb) function is to get the image dataURL/blob according to the image type specified in option in realtime
      * this function will be called every time the resize and other update in the image is called
-     * with the dataURL as a string parameter
+     * with the dataURL/blob as a string parameter
      */
-    cropImageWatcher?: (dataURL: string) => void;
+    cropImageWatcher?: {
+        imgArg?: GetImageArgument;
+        cb?: (data: any) => any;
+    };
 }
 interface ReturnType {
     /**
-     * Get the image dataURL of the current status of the image
+     * the callback function (cb) will get the image dataURL/blob of the current status of the image according to the argument provided
      */
-    getImage: (dataType?: string) => any;
+    getImage: (cb: (imageData: any) => any, imgArgs?: GetImageArgument) => any;
     /**
      * Dynamically change the image to be cropped
      */
