@@ -18,6 +18,14 @@ interface GetImageArgument {
   imageQuality?: number;
 }
 
+interface ImageMeta {
+  width: number;
+  height: number;
+  mime?: string;
+}
+
+type ImageDataType = string | Blob | null;
+
 /**
  * This is the options
  */
@@ -58,7 +66,7 @@ interface Options {
    */
   cropImageWatcher?: {
     imgArg?: GetImageArgument;
-    cb?: (data: any) => any;
+    cb?: (imageData: ImageDataType, imageMeta: ImageMeta) => unknown;
   };
 }
 
@@ -66,7 +74,10 @@ interface ReturnType {
   /**
    * the callback function (cb) will get the image dataURL/blob of the current status of the image according to the argument provided
    */
-  getImage: (cb: (imageData: any) => any, imgArgs?: GetImageArgument) => any;
+  getImage: (
+    cb: (imageData: ImageDataType, imageMeta: ImageMeta) => unknown,
+    imgArgs?: GetImageArgument
+  ) => unknown;
   /**
    * Dynamically change the image to be cropped
    */
@@ -124,23 +135,28 @@ export default (options: Options): ReturnType => {
   // image.crossOrigin = 'anonymous';
 
   const getImageData = async (
-    cb: (data: any) => any,
+    cb: (data: ImageDataType, imageMeta: ImageMeta) => unknown,
     args: GetImageArgument = {
       dataType: 'dataURL',
       imageType: 'image/jpeg',
       imageQuality: 1,
     }
   ) => {
+    const imageMeta: ImageMeta = {
+      width: exportCanvas.width,
+      height: exportCanvas.height,
+      mime: args.imageType,
+    };
     if (args.dataType === 'blob') {
       return exportCanvas.toBlob(
         data => {
-          cb(data);
+          cb(data, imageMeta);
         },
         args.imageType,
         args.imageQuality
       );
     } else {
-      cb(exportCanvas.toDataURL(args.imageType, args.imageQuality));
+      cb(exportCanvas.toDataURL(args.imageType, args.imageQuality), imageMeta);
     }
   };
 
@@ -412,7 +428,10 @@ export default (options: Options): ReturnType => {
   };
 
   return {
-    getImage: async (cb: (data: any) => any, imgArgs?: GetImageArgument) => {
+    getImage: async (
+      cb: (imageData: ImageDataType, imageMeta: ImageMeta) => unknown,
+      imgArgs?: GetImageArgument
+    ) => {
       getImageData(cb, imgArgs);
     },
     setImageURL: (imageURL: string) => {

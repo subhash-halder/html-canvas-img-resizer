@@ -15,6 +15,12 @@ interface GetImageArgument {
      */
     imageQuality?: number;
 }
+interface ImageMeta {
+    width: number;
+    height: number;
+    mime?: string;
+}
+declare type ImageDataType = string | Blob | null;
 /**
  * This is the options
  */
@@ -55,14 +61,14 @@ interface Options {
      */
     cropImageWatcher?: {
         imgArg?: GetImageArgument;
-        cb?: (data: any) => any;
+        cb?: (imageData: ImageDataType, imageMeta: ImageMeta) => unknown;
     };
 }
 interface ReturnType {
     /**
      * the callback function (cb) will get the image dataURL/blob of the current status of the image according to the argument provided
      */
-    getImage: (cb: (imageData: any) => any, imgArgs?: GetImageArgument) => any;
+    getImage: (cb: (imageData: ImageDataType, imageMeta: ImageMeta) => unknown, imgArgs?: GetImageArgument) => unknown;
     /**
      * Dynamically change the image to be cropped
      */
