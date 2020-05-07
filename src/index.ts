@@ -126,11 +126,7 @@ export default (options: Options): ReturnType => {
   let dragBottomRight = false;
   let dragBox = false;
   const image = new Image();
-  let heightNotProvided = true;
   let checkResizeFunction: NodeJS.Timeout;
-  if (imageDiv.clientHeight > 0) {
-    heightNotProvided = false;
-  }
   if (options.imageURL) image.src = options.imageURL;
   // image.crossOrigin = 'anonymous';
 
@@ -162,13 +158,11 @@ export default (options: Options): ReturnType => {
 
   image.onload = () => {
     const imgDivWidth = imageDiv.clientWidth;
-    if (heightNotProvided) {
-      let expectedHeight = image.height * (imgDivWidth / image.width);
-      if (expectedHeight > image.height) {
-        expectedHeight = image.height;
-      }
-      containerDiv.style.height = expectedHeight + 'px';
+    let expectedHeight = image.height * (imgDivWidth / image.width);
+    if (expectedHeight > image.height) {
+      expectedHeight = image.height;
     }
+    containerDiv.style.height = expectedHeight + 'px';
     imageCanvas.width = image.width;
     imageCanvas.height = image.height;
     cropCanvas.width = imageCanvas.clientWidth;
