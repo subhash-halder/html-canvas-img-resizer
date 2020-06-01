@@ -68,6 +68,12 @@ interface Options {
     imgArg?: GetImageArgument;
     cb?: (imageData: ImageDataType, imageMeta: ImageMeta) => unknown;
   };
+  /**
+   * default is  1000 if greater than zero this will check for resize of the container after every given duration (millisecond) set by this attribute
+   * set 0 to deactivate
+   * NOTE: if this is set call function stopContainerResizeCheck() from return object otherwise there may be a memory leak
+   */
+  checkForContainerResizeMS?: number;
 }
 
 interface ReturnType {
@@ -82,6 +88,10 @@ interface ReturnType {
    * Dynamically change the image to be cropped
    */
   setImageURL: (imageURL: string) => void;
+  /**
+   * If checkForContainerResizeMS is set to a value and this resizer need to be destroyed call this function to avoid memory leak
+   */
+  stopResizeCheck: () => void;
 }
 
 /**
@@ -93,6 +103,10 @@ export default (options: Options): ReturnType => {
   const cropMaskColor = options.cropMaskColor || 'rgba(0, 0, 0, 0.5)';
   const cropCornerColor = options.cropCornerColor || 'green';
   const cropCornerLineWidth = options.cropCornerLineWidth || 5;
+  const checkForContainerResizeMS =
+    options.checkForContainerResizeMS === undefined
+      ? 1000
+      : options.checkForContainerResizeMS;
 
   const {
     imageDiv,
@@ -126,7 +140,7 @@ export default (options: Options): ReturnType => {
   let dragBottomRight = false;
   let dragBox = false;
   const image = new Image();
-  let checkResizeFunction: NodeJS.Timeout;
+  let checkResizeFunction: number;
   if (options.imageURL) image.src = options.imageURL;
   // image.crossOrigin = 'anonymous';
 
@@ -234,28 +248,36 @@ export default (options: Options): ReturnType => {
       clearInterval(checkResizeFunction);
     }
 
-    checkResizeFunction = setInterval(() => {
-      const newWidth = imageCanvas.offsetWidth;
-      const newHeight = imageCanvas.offsetHeight;
-      if (
-        preResizeState.canvasHeight != newHeight ||
-        preResizeState.canvasWidth != newWidth
-      ) {
-        const xScale = newWidth / preResizeState.canvasWidth;
-        const yScale = newHeight / preResizeState.canvasHeight;
+    if (checkForContainerResizeMS > 0) {
+      checkResizeFunction = window.setInterval(() => {
+        const newWidth = imageCanvas.offsetWidth;
+        const newHeight = imageCanvas.offsetHeight;
+        if (
+          preResizeState.canvasHeight != newHeight ||
+          preResizeState.canvasWidth != newWidth
+        ) {
+          const xScale =
+            preResizeState.canvasWidth > 0
+              ? newWidth / preResizeState.canvasWidth
+              : 0;
+          const yScale =
+            preResizeState.canvasHeight > 0
+              ? newHeight / preResizeState.canvasHeight
+              : 0;
 
-        preResizeState = {
-          ...selection,
-          canvasHeight: newHeight,
-          canvasWidth: newWidth,
-        };
-        cropCanvas.width = newWidth;
-        cropCanvas.height = newHeight;
-        selection.w *= xScale;
-        selection.h *= yScale;
-        draw();
-      }
-    }, 500);
+          preResizeState = {
+            ...selection,
+            canvasHeight: newHeight,
+            canvasWidth: newWidth,
+          };
+          cropCanvas.width = newWidth;
+          cropCanvas.height = newHeight;
+          selection.w = (selection.w > 0 ? selection.w : 1) * xScale;
+          selection.h = (selection.h > 0 ? selection.h : 1) * yScale;
+          draw();
+        }
+      }, checkForContainerResizeMS);
+    }
 
     drawExportCanvas = async () => {
       const scaleX = image.width / cropCanvas.width;
@@ -430,6 +452,9 @@ export default (options: Options): ReturnType => {
     },
     setImageURL: (imageURL: string) => {
       image.src = imageURL;
+    },
+    stopResizeCheck: () => {
+      clearInterval(checkResizeFunction);
     },
   };
 };

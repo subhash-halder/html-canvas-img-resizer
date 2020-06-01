@@ -63,6 +63,12 @@ interface Options {
         imgArg?: GetImageArgument;
         cb?: (imageData: ImageDataType, imageMeta: ImageMeta) => unknown;
     };
+    /**
+     * default is  1000 if greater than zero this will check for resize of the container after every given duration (millisecond) set by this attribute
+     * set 0 to deactivate
+     * NOTE: if this is set call function stopContainerResizeCheck() from return object otherwise there may be a memory leak
+     */
+    checkForContainerResizeMS?: number;
 }
 interface ReturnType {
     /**
@@ -73,6 +79,10 @@ interface ReturnType {
      * Dynamically change the image to be cropped
      */
     setImageURL: (imageURL: string) => void;
+    /**
+     * If checkForContainerResizeMS is set to a value and this resizer need to be destroyed call this function to avoid memory leak
+     */
+    stopResizeCheck: () => void;
 }
 declare const _default: (options: Options) => ReturnType;
 /**

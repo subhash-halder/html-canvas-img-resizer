@@ -1,6 +1,6 @@
 {
   "name": "html-canvas-img-resizer",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Image resize library based on html canvas",
   "main": "lib/index.js",
   "types": "lib",

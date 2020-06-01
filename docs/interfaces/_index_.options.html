@@ -91,6 +91,7 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_index_.options.html#checkforcontainerresizems" class="tsd-kind-icon">check<wbr>For<wbr>Container<wbr>ResizeMS</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_index_.options.html#cropcornercolor" class="tsd-kind-icon">crop<wbr>Corner<wbr>Color</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_index_.options.html#cropcornerlinewidth" class="tsd-kind-icon">crop<wbr>Corner<wbr>Line<wbr>Width</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_index_.options.html#cropimagewatcher" class="tsd-kind-icon">crop<wbr>Image<wbr>Watcher</a></li>
@@ -106,12 +107,29 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="checkforcontainerresizems" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> check<wbr>For<wbr>Container<wbr>ResizeMS</h3>
+					<div class="tsd-signature tsd-kind-icon">check<wbr>For<wbr>Container<wbr>ResizeMS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/3c9ab0b/src/index.ts#L76">index.ts:76</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>default is  1000 if greater than zero this will check for resize of the container after every given duration (millisecond) set by this attribute
+								set 0 to deactivate
+							NOTE: if this is set call function stopContainerResizeCheck() from return object otherwise there may be a memory leak</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
 					<a name="cropcornercolor" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> crop<wbr>Corner<wbr>Color</h3>
 					<div class="tsd-signature tsd-kind-icon">crop<wbr>Corner<wbr>Color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/8a0c6cc/src/index.ts#L51">index.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/3c9ab0b/src/index.ts#L51">index.ts:51</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -127,7 +145,7 @@
 					<div class="tsd-signature tsd-kind-icon">crop<wbr>Corner<wbr>Line<wbr>Width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/8a0c6cc/src/index.ts#L56">index.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/3c9ab0b/src/index.ts#L56">index.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -143,7 +161,7 @@
 					<div class="tsd-signature tsd-kind-icon">crop<wbr>Image<wbr>Watcher<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>cb<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>imageData<span class="tsd-signature-symbol">: </span><a href="../modules/_index_.html#imagedatatype" class="tsd-signature-type">ImageDataType</a>, imageMeta<span class="tsd-signature-symbol">: </span><a href="_index_.imagemeta.html" class="tsd-signature-type">ImageMeta</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">; </span>imgArg<span class="tsd-signature-symbol">?: </span><a href="_index_.getimageargument.html" class="tsd-signature-type">GetImageArgument</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/8a0c6cc/src/index.ts#L67">index.ts:67</a></li>
+							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/3c9ab0b/src/index.ts#L67">index.ts:67</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -160,7 +178,7 @@
 					<div class="tsd-signature tsd-kind-icon">crop<wbr>Mask<wbr>Color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/8a0c6cc/src/index.ts#L46">index.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/3c9ab0b/src/index.ts#L46">index.ts:46</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -176,7 +194,7 @@
 					<div class="tsd-signature tsd-kind-icon">drag<wbr>Corner<wbr>Box<wbr>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/8a0c6cc/src/index.ts#L61">index.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/3c9ab0b/src/index.ts#L61">index.ts:61</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -192,7 +210,7 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/8a0c6cc/src/index.ts#L36">index.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/3c9ab0b/src/index.ts#L36">index.ts:36</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -207,7 +225,7 @@
 					<div class="tsd-signature tsd-kind-icon">imageURL<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/8a0c6cc/src/index.ts#L41">index.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/subhash1991/html-canvas-img-resizer/blob/3c9ab0b/src/index.ts#L41">index.ts:41</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -243,6 +261,9 @@
 					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
 						<a href="_index_.options.html" class="tsd-kind-icon">Options</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_index_.options.html#checkforcontainerresizems" class="tsd-kind-icon">check<wbr>For<wbr>Container<wbr>ResizeMS</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
 								<a href="_index_.options.html#cropcornercolor" class="tsd-kind-icon">crop<wbr>Corner<wbr>Color</a>
 							</li>
