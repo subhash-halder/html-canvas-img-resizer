@@ -21,11 +21,11 @@ yarn add html-canvas-img-resizer
 
 ## Example
 
-[Click for example](https://subhash.info/html-canvas-img-resizer)
+[Click for example](https://amsubhash.github.io/html-canvas-img-resizer)
 
 ## Documentation
 
-[Documentation](https://subhash.info/html-canvas-img-resizer/docs)
+[Documentation](https://amsubhash.github.io/html-canvas-img-resizer/docs)
 
 ## How to use in browser
 
@@ -35,8 +35,8 @@ yarn add html-canvas-img-resizer
 
 ### options
 
-[options](https://subhash.info/html-canvas-img-resizer/docs/interfaces/_index_.options.html)
+[options](https://amsubhash.github.io/html-canvas-img-resizer/docs/interfaces/_index_.options.html)
 
 ### return
 
-[return](https://subhash.info/html-canvas-img-resizer/docs/interfaces/_index_.returntype.html)
+[return](https://amsubhash.github.io/html-canvas-img-resizer/docs/interfaces/_index_.returntype.html)
