@@ -182,7 +182,9 @@ export default (options: Options): ReturnType => {
     cropCanvas.width = imageCanvas.clientWidth;
     cropCanvas.height = imageCanvas.clientHeight;
     cropCanvas.addEventListener('mouseup', mouseUp, false);
+    cropCanvas.addEventListener('touchend', mouseUp, false);
     cropCanvas.addEventListener('mousemove', mouseMove, false);
+    cropCanvas.addEventListener('touchmove', mouseUp, false);
     imageCanvasCtx.drawImage(image, 0, 0);
     bottomLeftCornerDiv.addEventListener(
       'mousedown',
@@ -191,8 +193,17 @@ export default (options: Options): ReturnType => {
       },
       false
     );
+    bottomLeftCornerDiv.addEventListener(
+      'touchstart',
+      () => {
+        dragBottomLeft = true;
+      },
+      false
+    );
     bottomLeftCornerDiv.addEventListener('mouseup', mouseUp, false);
+    bottomLeftCornerDiv.addEventListener('touchend', mouseUp, false);
     bottomLeftCornerDiv.addEventListener('mousemove', mouseMove, false);
+    bottomLeftCornerDiv.addEventListener('touchmove', mouseMove, false);
     topLeftCornerDiv.addEventListener(
       'mousedown',
       () => {
@@ -200,8 +211,17 @@ export default (options: Options): ReturnType => {
       },
       false
     );
+    topLeftCornerDiv.addEventListener(
+      'touchstart',
+      () => {
+        dragTopLeft = true;
+      },
+      false
+    );
     topLeftCornerDiv.addEventListener('mouseup', mouseUp, false);
+    topLeftCornerDiv.addEventListener('touchend', mouseUp, false);
     topLeftCornerDiv.addEventListener('mousemove', mouseMove, false);
+    topLeftCornerDiv.addEventListener('touchmove', mouseMove, false);
     topRightCornerDiv.addEventListener(
       'mousedown',
       () => {
@@ -209,8 +229,17 @@ export default (options: Options): ReturnType => {
       },
       false
     );
+    topRightCornerDiv.addEventListener(
+      'touchstart',
+      () => {
+        dragTopRight = true;
+      },
+      false
+    );
     topRightCornerDiv.addEventListener('mouseup', mouseUp, false);
+    topRightCornerDiv.addEventListener('touchend', mouseUp, false);
     topRightCornerDiv.addEventListener('mousemove', mouseMove, false);
+    topRightCornerDiv.addEventListener('touchmove', mouseMove, false);
     bottomRightCornerDiv.addEventListener(
       'mousedown',
       () => {
@@ -218,8 +247,17 @@ export default (options: Options): ReturnType => {
       },
       false
     );
+    bottomRightCornerDiv.addEventListener(
+      'touchstart',
+      () => {
+        dragBottomRight = true;
+      },
+      false
+    );
     bottomRightCornerDiv.addEventListener('mouseup', mouseUp, false);
+    bottomRightCornerDiv.addEventListener('touchend', mouseUp, false);
     bottomRightCornerDiv.addEventListener('mousemove', mouseMove, false);
+    bottomRightCornerDiv.addEventListener('touchmove', mouseMove, false);
     selectionDiv.addEventListener(
       'mousedown',
       () => {
@@ -227,8 +265,17 @@ export default (options: Options): ReturnType => {
       },
       false
     );
+    selectionDiv.addEventListener(
+      'touchstart',
+      () => {
+        dragBox = true;
+      },
+      false
+    );
     selectionDiv.addEventListener('mouseup', mouseUp, false);
+    selectionDiv.addEventListener('touchend', mouseUp, false);
     selectionDiv.addEventListener('mousemove', mouseMove, false);
+    selectionDiv.addEventListener('touchmove', mouseMove, false);
 
     const selection = {
       x: 0,
@@ -313,13 +360,20 @@ export default (options: Options): ReturnType => {
     let previousX = 0;
     let previousY = 0;
 
-    function mouseMove(e: MouseEvent) {
+    function mouseMove(e: MouseEvent | TouchEvent) {
       if (!imageDiv) {
         throw Error('Not able to create canvas');
       }
       let canvasRect = cropCanvas.getBoundingClientRect();
-      let mouseX = e.clientX - canvasRect.x;
-      let mouseY = e.clientY - canvasRect.y;
+      let mouseX: number = 0;
+      let mouseY: number = 0;
+      if (e instanceof MouseEvent) {
+        mouseX = e.clientX - canvasRect.x;
+        mouseY = e.clientY - canvasRect.y;
+      } else if (e instanceof TouchEvent) {
+        mouseX = e.touches[0].clientX - canvasRect.x;
+        mouseY = e.touches[0].clientY - canvasRect.y;
+      }
       let isDraw = false;
       if (dragTopLeft) {
         selection.w += selection.x - mouseX;
