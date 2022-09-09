@@ -84,9 +84,9 @@ interface ReturnType {
      */
     stopResizeCheck: () => void;
 }
-declare const _default: (options: Options) => ReturnType;
 /**
  * This is the main function
  */
+declare const _default: (options: Options) => ReturnType;
 export default _default;
 //# sourceMappingURL=index.d.ts.map

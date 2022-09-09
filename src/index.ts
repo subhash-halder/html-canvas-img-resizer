@@ -159,7 +159,7 @@ export default (options: Options): ReturnType => {
     };
     if (args.dataType === 'blob') {
       return exportCanvas.toBlob(
-        data => {
+        (data) => {
           cb(data, imageMeta);
         },
         args.imageType,
@@ -352,7 +352,12 @@ export default (options: Options): ReturnType => {
     };
 
     function mouseUp() {
-      dragTopLeft = dragTopRight = dragBottomLeft = dragBottomRight = dragBox = false;
+      dragTopLeft =
+        dragTopRight =
+        dragBottomLeft =
+        dragBottomRight =
+        dragBox =
+          false;
     }
 
     let mousePrevX = 0;
