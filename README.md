@@ -40,8 +40,8 @@ yarn add html-canvas-img-resizer
 
 ### options
 
-[options](https://amsubhash.github.io/html-canvas-img-resizer/docs/interfaces/_index_.options.html)
+[options](https://amsubhash.github.io/html-canvas-img-resizer/docs/interfaces/Options.html)
 
 ### return
 
-[return](https://amsubhash.github.io/html-canvas-img-resizer/docs/interfaces/_index_.returntype.html)
+[return](https://amsubhash.github.io/html-canvas-img-resizer/docs/interfaces/ReturnType.html)

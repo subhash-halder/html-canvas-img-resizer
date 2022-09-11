@@ -3,7 +3,7 @@ import createContainer from './create-container';
 /**
  * Argument for getting the image for specific need
  */
-interface GetImageArgument {
+export interface GetImageArgument {
   /**
    * type of image data to return dataURL or blob default if blob
    */
@@ -18,18 +18,18 @@ interface GetImageArgument {
   imageQuality?: number;
 }
 
-interface ImageMeta {
+export interface ImageMeta {
   width: number;
   height: number;
   mime?: string;
 }
 
-type ImageDataType = string | Blob | null;
+export type ImageDataType = string | Blob | null;
 
 /**
  * This is the options
  */
-interface Options {
+export interface Options {
   /**
    * Id of the html div where the cropper will be placed
    */
@@ -76,7 +76,7 @@ interface Options {
   checkForContainerResizeMS?: number;
 }
 
-interface ReturnType {
+export interface ReturnType {
   /**
    * the callback function (cb) will get the image dataURL/blob of the current status of the image according to the argument provided
    */
